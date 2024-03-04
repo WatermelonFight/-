@@ -28,6 +28,8 @@ export default defineConfig({
       scss:{
         additionalData:`
         @use "@/styles/element/index.scss" as *;
+        // 自动导入样式
+        @use "@/styles/var.scss" as *;
         `,
       }
     }
