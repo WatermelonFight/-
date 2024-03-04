@@ -1,5 +1,20 @@
 <script setup>
+import { getCategoryAPI} from '@/apis/Layout'
+import { onMounted } from 'vue'
+import { ref } from 'vue'
+//这样封装是因为在调用接口前可能会有别的操作需要进行,并且要进行异步
+//请求数据采用响应式数据是为了能够实时刷新页面等
+const getList = ref([])
+const getCategory = async ()=>{
 
+    const res = await getCategoryAPI()
+    getList.value = res.result
+    console.log(111,res);
+
+}
+onMounted(()=>{
+    getCategory()
+})
 </script>
 
 <template>
@@ -9,12 +24,9 @@
         <RouterLink to="/">小兔鲜</RouterLink>
       </h1>
       <ul class="app-header-nav">
-        <li class="home">
-          <RouterLink to="/">首页</RouterLink>
+        <li class="home" v-for="item in getList" :key="item.id">
+          <RouterLink to="/">{{ item.name }}</RouterLink>
         </li>
-        <li> <RouterLink to="/">居家</RouterLink> </li>
-        <li> <RouterLink to="/">美食</RouterLink> </li>
-        <li> <RouterLink to="/">服饰</RouterLink> </li>
       </ul>
       <div class="search">
         <i class="iconfont icon-search"></i>
