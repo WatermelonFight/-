@@ -7,7 +7,7 @@ const bannerList = ref([])
 //使用箭头函数能够省去return和function关键字
 const getBanner = async () => {
     const res = await getBannerAPI()
-    console.log(res)
+    // console.log(res)
     bannerList.value = res.result
     
 }
