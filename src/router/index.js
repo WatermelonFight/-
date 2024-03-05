@@ -17,7 +17,8 @@ const router = createRouter({
           component:Home
         },
         {
-          path:'/category',
+          // :为占位符
+          path:'/category/:id',
           component:Category
         }
       ]
