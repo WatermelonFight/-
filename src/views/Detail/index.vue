@@ -2,6 +2,9 @@
 import { getDetailsAPI } from "@/apis/detail";
 import { onMounted,ref } from 'vue'
 import { useRoute } from 'vue-router'
+import DetailsHot from "./components/DetailsHot.vue";
+// import ImageView from "@/components/ImageView/index.vue"
+// import XtxSku from "@/components/XtxSku/index.vue"
 
 const detailsData = ref({})
 const route = useRoute()
@@ -11,6 +14,11 @@ const getDetails = async () => {
     console.log(111,res);
 }
 onMounted(()=>{ getDetails() })
+
+const skuChange = (sku) => {
+    console.log(sku);
+}
+
 </script>
 
 <template>
@@ -37,7 +45,7 @@ onMounted(()=>{ getDetails() })
           <div class="goods-info">
             <div class="media">
               <!-- 图片预览区 -->
-
+                <XtxImageView :imageList="detailsData.mainPictures"></XtxImageView>
               <!-- 统计数量 -->
               <ul class="goods-sales">
                 <li>
@@ -86,7 +94,7 @@ onMounted(()=>{ getDetails() })
                 </dl>
               </div>
               <!-- sku组件 -->
-
+              <XtxSku :goods="detailsData" @change = "skuChange" />
               <!-- 数据组件 -->
 
               <!-- 按钮组件 -->
@@ -121,7 +129,11 @@ onMounted(()=>{ getDetails() })
             </div>
             <!-- 24热榜+专题推荐 -->
             <div class="goods-aside">
-
+                <!-- 周日榜单 -->
+                <!-- 只有字符串才不用加上： -->
+                <DetailsHot :id="detailsData.id" :type="2" :limit="3" />
+                <!-- 24 -->
+                <DetailsHot :id="detailsData.id" :type="1" :limit="3" />
             </div>
           </div>
         </div>

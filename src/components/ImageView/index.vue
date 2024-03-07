@@ -1,0 +1,130 @@
+<!-- 与业务非强相关的通用型组件 -->
+<!-- mouseenter 事件在鼠标指针进入元素时触发，可以用于执行与鼠标悬停相关的操作。
+而 hover 伪类则是一种选择器，用于选择鼠标悬停状态下的元素，并在 CSS 中应用相应的样式。 -->
+<script setup>
+// 图片列表
+import {ref} from 'vue'
+import { useMouseInElement } from '@vueuse/core';
+import { watch } from 'vue'
+defineProps({
+    imageList:{
+        type:Array,
+        default:() => []
+    }
+})
+const activeIndex = ref(0)
+const enterhandler = (i) => {
+    activeIndex.value = i
+}
+
+//获取鼠标相对蒙层的位置
+const target = ref(null)
+const { elementX,elementY,isOutside } = useMouseInElement(target)
+
+//蒙层跟随鼠标移动逻辑 
+const top = ref(0)//蒙层
+const left = ref(0)
+const positionX = ref(0)//放大图
+const positionY = ref(0)
+watch([elementX,elementY],() => {
+    //优化：鼠标不在图内时停止监听
+    if(isOutside.value) return
+    if(elementX.value > 0 && elementX.value < 100) left.value = 0
+    if(elementX.value > 300 && elementX.value < 400) left.value = 200
+    if(elementY.value > 0 && elementY.value < 100) top.value = 0
+    if(elementY.value > 300 && elementY.value < 400) top.value = 200
+
+    if(elementX.value > 100 && elementX.value < 300){
+        left.value = elementX.value - 100
+    }
+    if(elementY.value > 100 && elementY.value < 300){
+        top.value = elementY.value - 100
+    }
+    positionX.value = -2 * left.value
+    positionY.value = -2 * top.value
+})
+
+</script>
+
+<template>
+  <div class="goods-image">
+    <!-- 左侧大图-->,
+    <div class="middle" ref="target">
+      <img :src="imageList[activeIndex]" alt="" />
+      <!-- 蒙层小滑块 -->
+      <div class="layer" :style="{ left: `${left}px`, top: `${top}px` }" v-show="!isOutside"></div>
+    </div>
+    <!-- 小图列表 -->
+    <ul class="small">
+        <!-- (value,index) -->
+      <li v-for="(img, i) in imageList" :key="i" @mouseenter="enterhandler(i)" :class="{active:i===activeIndex}">
+        <img :src="img" alt="" />
+      </li>
+    </ul>
+    <!-- 放大镜大图 -->
+    <div class="large" :style="[
+      {
+        backgroundImage: `url(${imageList[activeIndex]})`,
+        backgroundPositionX: `${positionX}px`,
+        backgroundPositionY: `${positionY}px`,
+      },
+    ]" v-show="!isOutside"></div>
+    <!-- v-show只要渲染一次，然后控制其显示与隐藏，而v-ifv-if是真正地添加或移除元素（根据元素触发频率来选择） -->
+  </div>
+</template>
+
+<style scoped lang="scss">
+.goods-image {
+  width: 480px;
+  height: 400px;
+  position: relative;
+  display: flex;
+
+  .middle {
+    width: 400px;
+    height: 400px;
+    background: #f5f5f5;
+  }
+
+  .large {
+    position: absolute;
+    top: 0;
+    left: 412px;
+    width: 400px;
+    height: 400px;
+    z-index: 500;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-repeat: no-repeat;
+    // 背景图:盒子的大小 = 2:1  将来控制背景图的移动来实现放大的效果查看 background-position
+    background-size: 800px 800px;
+    background-color: #f8f8f8;
+  }
+
+  .layer {
+    width: 200px;
+    height: 200px;
+    background: rgba(0, 0, 0, 0.2);
+    // 绝对定位 然后跟随咱们鼠标控制left和top属性就可以让滑块移动起来
+    left: 0;
+    top: 0;
+    position: absolute;
+  }
+
+  .small {
+    width: 80px;
+
+    li {
+      width: 68px;
+      height: 68px;
+      margin-left: 12px;
+      margin-bottom: 15px;
+      cursor: pointer;
+
+      &:hover,
+      &.active {
+        border: 2px solid $xtxColor;
+      }
+    }
+  }
+}
+</style>
