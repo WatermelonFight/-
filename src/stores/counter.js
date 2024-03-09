@@ -1,3 +1,4 @@
+//理念：把state和action储存在pinia中，由组件触发action
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 

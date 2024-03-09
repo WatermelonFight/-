@@ -9,7 +9,7 @@ import { createPinia } from 'pinia'
 
 import App from './App.vue'
 import router from './router'
-
+import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 
 
 //测试接口函数
@@ -18,8 +18,11 @@ import router from './router'
 //     console.log(res)
 // })
 const app = createApp(App)
+const pinia = createPinia()
 
-app.use(createPinia())
+//pinia是基于内容储存的，在页面刷新后会消失，所以要采用插件进行持久化储存到localstore
+pinia.use(piniaPluginPersistedstate)
+app.use(pinia)
 app.use(router)
 app.use(lazyPlugin)
 app.use(componentPlugin)
