@@ -3,6 +3,7 @@ import { getCategoryAPI} from '@/apis/Layout'
 import { onMounted } from 'vue'
 import { ref } from 'vue'
 import { useCategoryStore } from '@/stores/category';
+import HeaderCart from './HeaderCart.vue';
 
 const categoryStore = useCategoryStore()
 //这样封装是因为在调用接口前可能会有别的操作需要进行,并且要进行异步
@@ -38,7 +39,7 @@ const categoryStore = useCategoryStore()
         <input type="text" placeholder="搜一搜">
       </div>
       <!-- 头部购物车 -->
-      
+      <HeaderCart></HeaderCart>
     </div>
   </header>
 </template>
@@ -145,4 +146,4 @@ const categoryStore = useCategoryStore()
     }
   }
 }
-</style>
+</style>@/stores/categoryStore

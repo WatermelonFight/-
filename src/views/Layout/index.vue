@@ -25,4 +25,4 @@ onMounted(() => {
   <!-- <RouterView :key="$route.fullPath" /> -->
   <RouterView />
   <LayoutFooter />
-</template>
+</template>@/stores/categoryStore

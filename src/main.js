@@ -22,10 +22,10 @@ const pinia = createPinia()
 
 //pinia是基于内容储存的，在页面刷新后会消失，所以要采用插件进行持久化储存到localstore
 pinia.use(piniaPluginPersistedstate)
-app.use(pinia)
+
 app.use(router)
 app.use(lazyPlugin)
 app.use(componentPlugin)
-
+app.use(pinia)
 app.mount('#app')
 
