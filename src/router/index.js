@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory,createWebHashHistory } from 'vue-router'
 import Layout from '@/views/Layout/index.vue'
 import Login from '@/views/Login/index.vue'
 import Category from '@/views/Category/index.vue'
@@ -16,7 +16,7 @@ import UserOrder from '@/views/Member/components/UserOrder.vue'
 
 const router = createRouter({
   // 指明应用程序在import.meta.env.BASE_URL下，即根路径下
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path:'/',
