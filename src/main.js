@@ -20,6 +20,7 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 const app = createApp(App)
 const pinia = createPinia()
 
+// 使用app.use时会自动调用install，install是注册全局组件或工具所必须的
 //pinia是基于内容储存的，在页面刷新后会消失，所以要采用插件进行持久化储存到localstore
 pinia.use(piniaPluginPersistedstate)
 

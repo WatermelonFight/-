@@ -11,6 +11,7 @@ export const lazyPlugin = {
                 // console.log(el,binding);
                 const{ stop } = useIntersectionObserver(
                     el,
+                    //useIntersectionObserve返回一个数组，包含多个元素状态观察对象，用{}结构
                     ([{ isIntersecting }]) => {
                         if(isIntersecting){
                             // console.log(isIntersecting);

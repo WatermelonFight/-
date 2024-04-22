@@ -36,6 +36,10 @@ httpInstance.interceptors.response.use(res => res.data,e=>{
         userStore.clearUserInfo()
         router.push('/login')
     }
+    // 对于 await 后面直接跟着一个数据（非 Promise 对象），
+    // 实际上会隐式地将这个数据包装成一个 resolved 状态的 Promise 对象
+    // 所以成功返回的不用手动封装成promise
+    // 使用try/catch块或者e => Promise.reject(e)来处理异步操作中的异常，可以避免程序中断
     return Promise.reject(e)
 })
 
